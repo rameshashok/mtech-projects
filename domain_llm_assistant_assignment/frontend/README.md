@@ -2,6 +2,11 @@
 
 React frontend for the FastAPI backend.
 
+## Deployment
+
+- Backend: https://domain-llm-assistant-assignment-backend.onrender.com
+- Frontend: Deployed on Vercel
+
 ## Setup
 
 ### Backend
