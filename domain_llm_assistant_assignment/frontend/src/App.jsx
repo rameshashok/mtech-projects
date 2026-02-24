@@ -30,13 +30,18 @@ function App() {
         signal: controller.signal
       })
       clearTimeout(timeoutId)
+      
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`)
+      }
+      
       const data = await response.json()
       setMessages(prev => [...prev, { role: 'assistant', content: data.response }])
     } catch (error) {
       if (error.name === 'AbortError') {
-        setMessages(prev => [...prev, { role: 'error', content: 'Request timed out. Please try again.' }])
+        setMessages(prev => [...prev, { role: 'error', content: 'Request timed out after 2 minutes. The server may be overloaded. Please try again.' }])
       } else {
-        setMessages(prev => [...prev, { role: 'error', content: 'Failed to get response' }])
+        setMessages(prev => [...prev, { role: 'error', content: `Error: ${error.message || 'Failed to get response'}` }])
       }
     } finally {
       setLoading(false)
