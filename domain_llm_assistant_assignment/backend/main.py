@@ -97,5 +97,6 @@ async def ask_question(request: QueryRequest):
 
 # Health Check Endpoint
 @app.get("/")
+@app.head("/")
 async def root():
     return {"message": "Personal Finance Education Assistant API is running"}
