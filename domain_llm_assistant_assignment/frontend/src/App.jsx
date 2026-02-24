@@ -1,14 +1,35 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card'
 import { Button } from './components/ui/button'
 import { Input } from './components/ui/input'
 import { ScrollArea } from './components/ui/scroll-area'
 import { Send } from 'lucide-react'
 
+const BACKEND_URL = 'https://domain-llm-assistant-assignment-backend.onrender.com'
+
 function App() {
   const [question, setQuestion] = useState('')
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(false)
+
+  // Keep backend alive by pinging every 14 minutes
+  useEffect(() => {
+    const pingBackend = async () => {
+      try {
+        await fetch(BACKEND_URL, { method: 'GET' })
+      } catch (error) {
+        console.log('Ping failed:', error)
+      }
+    }
+
+    // Initial ping
+    pingBackend()
+
+    // Ping every 14 minutes (Render spins down after 15 min of inactivity)
+    const interval = setInterval(pingBackend, 14 * 60 * 1000)
+
+    return () => clearInterval(interval)
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -23,7 +44,7 @@ function App() {
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), 120000)
       
-      const response = await fetch('https://domain-llm-assistant-assignment-backend.onrender.com/ask', {
+      const response = await fetch(`${BACKEND_URL}/ask`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question }),
