@@ -15,7 +15,7 @@ app = FastAPI(title="Personal Finance Education Assistant")
 # Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000", "https://*.vercel.app", "https://*.netlify.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
