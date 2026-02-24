@@ -21,7 +21,7 @@ function App() {
 
     try {
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 60000)
+      const timeoutId = setTimeout(() => controller.abort(), 120000)
       
       const response = await fetch('https://domain-llm-assistant-assignment-backend.onrender.com/ask', {
         method: 'POST',
@@ -69,7 +69,7 @@ function App() {
                 {loading && (
                   <div className="flex justify-start">
                     <div className="bg-muted rounded-lg p-4">
-                      <p className="text-sm text-muted-foreground">Thinking... (Server may take up to 50s to wake up if inactive)</p>
+                      <p className="text-sm text-muted-foreground">Thinking... (First request may take up to 2 minutes if server is inactive)</p>
                     </div>
                   </div>
                 )}
